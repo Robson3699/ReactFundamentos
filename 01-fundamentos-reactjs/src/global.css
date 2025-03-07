@@ -10,6 +10,11 @@
 
     --green-500:#00875f;
     --green-300: #00875e;
+    --red-500: #c53030;
+}
+:focus{
+    outline: 2px solid var(--green-500);
+    outline-offset: 2px;
 }
 *{
     margin: 0;
