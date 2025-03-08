@@ -1,26 +1,35 @@
 import styles from './Post.module.css';
 import { Comment } from './Comment';
 import { Avatar } from './Avatar';
-export function Post (){
+import{format, formatDistanceToNow} from 'date-fns';
+
+export function Post (props){
+    const publishedDateFormatted = format((props.publishedAt), 'dd/MM/yyyy');
+    const publishedDateRaltivetoNow = formatDistanceToNow((props.publishedAt), {addSuffix: true});
     return (
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <Avatar hasBorder src="https://github.com/diego3g.png" alt="foto do maluco" />
+                    <Avatar hasBorder src={props.author.avatarUrl} alt="foto do maluco" />
                     <div className={styles.authorInfo}>
-                        <strong>Diego Fernandes</strong>
-                        <span>Web Developer</span>
+                        <strong>{props.author.name}</strong>
+                        <span>{props.author.role}</span>
                     </div>
                 </div>
-                <time datetime="">Publicado a 1h</time>
+                <time title={publishedDateFormatted}>{publishedDateRaltivetoNow}</time>
             </header>
 
 
             <div className={styles.content}>
-                <p>Fala galera</p>
-                <p>Acabei de subir mais um porjeto no meu portifa. EH um projeto que fiz no NLW Return evento da rocketseat</p>
-                <p><a href="">jane.desing/doctorcare</a></p>
-                <p><a href="">#novoprojeto #NLW #rocketseat</a></p>
+                {props.content.map(line =>{
+                    if(line.type==='paragraph'){
+                        return <p>{line.content}</p>
+                    }else if(line.type==='link'){
+                        return <p><a href=""></a></p>
+                }
+
+                      })}
+
             </div>
 
           
