@@ -6,17 +6,25 @@ import { useState } from 'react';
 
 export function Post (props){
     const [comments, setComments]=useState([
-        1,
-        2
+        'Poste meio Merda em'
     ]);
+
+    const [newCommentText, setNewCommentText]=useState('');
+
+
     const publishedDateFormatted = format((props.publishedAt), 'dd/MM/yyyy');
     const publishedDateRaltivetoNow = formatDistanceToNow((props.publishedAt), {addSuffix: true});
     
 
     function handleCreateNewComment(){
         event.preventDefault();
-        setComments([...comments, comments.length + 1]);
-        console.log(comments)
+        setComments([...comments, newCommentText]);
+        setNewCommentText('');
+
+    }
+
+    function handleNewCommentChange(event){
+        setNewCommentText(event.target.value);
     }
 
     return (
@@ -57,7 +65,7 @@ export function Post (props){
             <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
 
                 <strong>Deixe seu comentario</strong>
-                <textarea placeholder='Deixe um Comentario'/>
+                <textarea placeholder='Deixe um Comentario' onChange={handleNewCommentChange} value={newCommentText}></textarea>
                 <footer>
                 <button type='submit'>Publicar</button>
                 </footer>
@@ -67,7 +75,7 @@ export function Post (props){
 
             <div className={styles.commentList}>
                 {comments.map(comment =>{
-                    return <Comment key={comment} />
+                    return <Comment content={comment} />
                 })}
             </div>
         </article>
