@@ -5,6 +5,7 @@ import{format, formatDistanceToNow} from 'date-fns';
 import { useState } from 'react';
 
 export function Post (props){
+    ///*****************constantes*************/
     const [comments, setComments]=useState([
         'Poste meio Merda em'
     ]);
@@ -14,6 +15,11 @@ export function Post (props){
 
     const publishedDateFormatted = format((props.publishedAt), 'dd/MM/yyyy');
     const publishedDateRaltivetoNow = formatDistanceToNow((props.publishedAt), {addSuffix: true});
+
+    ///*****************************************************/
+
+
+    //********FUCTIONS******************/
     
 
     function handleCreateNewComment(){
@@ -27,7 +33,17 @@ export function Post (props){
         setNewCommentText(event.target.value);
     }
 
+    function deleteComment(comment){
+        console.log(`deletar comentario ${comment}`)
+
+    }
+
+    
+    ///*****************************************************/
+
     return (
+
+
         <article className={styles.post}>
 
 
@@ -52,9 +68,9 @@ export function Post (props){
                 
                 {props.content.map(line =>{
                     if(line.type==='paragraph'){
-                        return <p>{line.content}</p>
+                        return <p key={line.content}>{line.content}</p>
                     }else if(line.type==='link'){
-                        return <p><a href=""></a></p>
+                        return <p key={line.content}><a href=""></a></p>
                 }
 
                       })}
@@ -75,7 +91,13 @@ export function Post (props){
 
             <div className={styles.commentList}>
                 {comments.map(comment =>{
-                    return <Comment content={comment} />
+                    return (
+                    <Comment 
+                    key={comment} 
+                    content={comment} 
+                    onDeleteComment={deleteComment}
+                    />
+                )
                 })}
             </div>
         </article>
